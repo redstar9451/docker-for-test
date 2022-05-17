@@ -1,2 +1,5 @@
-# docker-for-test
-debugging and test with docker
+# How to build docker image
+./build.sh
+
+# How to deploy
+kubectl apply -f k8s.yaml

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mytest
+spec:
+  replicas: 1
+  selector:
+    app: mytest
+  template:
+    metadata:
+      labels:
+        app: mytest
+    spec:
+      containers:
+      - name: mytest
+        image: mytest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 22
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mytest
+  labels: 
+    name: mytest
+spec:
+  type: NodePort
+  ports:
+  - port: 22
+    nodePort: 30022
+  selector:
+    app: mytest
