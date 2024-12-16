@@ -1,0 +1,32 @@
+FROM ubuntu:oracular
+
+RUN apt-get update
+RUN apt-get install -y git
+RUN apt-get install -y cmake
+RUN apt-get install -y ethtool
+RUN apt-get install -y gcc
+RUN apt-get install -y g++
+RUN apt-get install -y lrzsz
+RUN apt-get install -y tcpdump
+RUN apt-get install -y netcat-openbsd
+RUN apt-get install -y net-tools
+RUN apt-get install -y netsniff-ng
+RUN apt-get install -y wget
+RUN apt-get install -y wget
+RUN apt-get install -y which
+RUN apt-get install -y faketime
+RUN apt-get install -y vim
+RUN apt-get install -y curl
+RUN apt-get install -y file
+
+RUN apt-get install locales
+RUN locale-gen en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8
+
+ADD ./install-golang.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/install-golang.sh
+RUN /usr/local/bin/install-golang.sh
+
+
+ADD ./test_init.sh /usr/local/bin
+CMD ["/usr/local/bin/test_init.sh"]

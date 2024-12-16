@@ -1,0 +1,37 @@
+FROM centos:centos7.9.2009
+
+RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/CentOS-*.repo
+
+RUN yum install -y cmake
+RUN yum install -y cyrus-sasl-devel
+RUN yum install -y ethtool
+RUN yum install -y gcc
+RUN yum install -y gcc-c++
+RUN yum install -y libcurl-devel
+RUN yum install -y librdkafka-devel
+RUN yum install -y lrzsz vim tcpdump gcc make
+RUN yum install -y make
+RUN yum install -y nc
+RUN yum install -y net-tools
+RUN yum install -y netsniff-ng
+RUN yum install -y wget
+RUN yum install -y wget
+RUN yum install -y which
+
+# install faketime
+ADD https://github.com/wolfcw/libfaketime/archive/refs/tags/v0.9.10.tar.gz /root
+RUN cd /root && tar xf v0.9.10.tar.gz 
+
+# install kcat
+ADD https://github.com/edenhill/kcat/archive/refs/tags/1.7.1.tar.gz /root
+RUN cd /root && tar xf 1.7.1.tar.gz && cd /root/kcat-1.7.1 && ./configure && make && make install
+
+
+ADD ./golang_arch.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/golang_arch.sh
+RUN /usr/local/bin/golang_arch.sh
+
+ADD ./test_init.sh /usr/local/bin
+CMD ["/usr/local/bin/test_init.sh"]
