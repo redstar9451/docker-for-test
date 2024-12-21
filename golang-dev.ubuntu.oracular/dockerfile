@@ -1,5 +1,8 @@
 FROM ubuntu:oracular
 
+ARG GO_VERSION=1.17
+ENV GO_VERSION=${GO_VERSION}
+
 RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y cmake
@@ -12,7 +15,6 @@ RUN apt-get install -y netcat-openbsd
 RUN apt-get install -y net-tools
 RUN apt-get install -y netsniff-ng
 RUN apt-get install -y wget
-RUN apt-get install -y wget
 RUN apt-get install -y which
 RUN apt-get install -y faketime
 RUN apt-get install -y vim
@@ -23,9 +25,17 @@ RUN apt-get install locales
 RUN locale-gen en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8
 
+RUN apt-get install -y tzdata
+
+# 设置时区为Asia/Shanghai
+ENV TZ=Asia/Shanghai
+
+# 重新配置时区数据
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+
 ADD ./install-golang.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/install-golang.sh
-RUN /usr/local/bin/install-golang.sh
+RUN chmod +x /usr/local/bin/install-golang.sh && /usr/local/bin/install-golang.sh
 
 
 ADD ./test_init.sh /usr/local/bin
