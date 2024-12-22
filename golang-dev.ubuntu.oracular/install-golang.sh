@@ -48,9 +48,23 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 mkdir -p /data/go
 go install github.com/go-delve/delve/cmd/dlv@"$DLV_VERSION"
-
 go install golang.org/x/tools/gopls@"$GOLSP_VERSION"
+# I did not test these commands for go1.17
+go install golang.org/x/tools/cmd/goimports@v0.5.0
+go install honnef.co/go/tools/cmd/staticcheck@v0.4.7
+go install github.com/fatih/gomodifytags@v1.17.0
+go install github.com/haya14busa/goplay/cmd/goplay@latest
+go install github.com/josharian/impl@latest
+go install github.com/cweill/gotests/gotests@latest
 
+# go:	/usr/local/go/bin/go: go version go1.19.13 linux/arm64
+# gopls:	/data/go/bin/gopls	(version: v0.15.3 built with go: go1.19.13)
+# gotests:	/data/go/bin/gotests	(version: v1.6.0 built with go: go1.19.13)
+# gomodifytags:	/data/go/bin/gomodifytags	(version: v1.17.0 built with go: go1.19.13)
+# impl:	/data/go/bin/impl	(version: v1.4.0 built with go: go1.19.13)
+# goplay:	/data/go/bin/goplay	(version: v1.0.0 built with go: go1.19.13)
+# dlv:	/data/go/bin/dlv	(version: v1.22.1 built with go: go1.19.13)
+# staticcheck:	/data/go/bin/staticcheck	(version: v0.4.7 built with go: go1.19.13)
 
 cd "/root" || { echo "Failed to cd to /root"; exit 1; }
 if [ "$(uname -m)" == "x86_64" ]; then
