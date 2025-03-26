@@ -3,6 +3,9 @@
 ## How to build docker image
 
 ```shell
+# build golang 1.22 development
+docker build --build-arg GO_VERSION=1.22 -t golang-dev:1.22 -f dockerfile .
+
 # build golang 1.19 development
 docker build --build-arg GO_VERSION=1.19 -t golang-dev:1.19 -f dockerfile .
 
