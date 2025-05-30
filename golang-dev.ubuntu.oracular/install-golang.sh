@@ -77,7 +77,7 @@ go install github.com/cweill/gotests/gotests@latest
 
 cd "/root" || { echo "Failed to cd to /root"; exit 1; }
 if [ "$(uname -m)" == "x86_64" ]; then
-     wget https://github.com/junegunn/fzf/releases/download/v0.57.0/fzf-0.57.0-linux_amd64.tar.gz
+    wget https://github.com/junegunn/fzf/releases/download/v0.57.0/fzf-0.57.0-linux_amd64.tar.gz
     tar -C /usr/bin -xzf fzf-0.57.0-linux_amd64.tar.gz
 else
     wget https://github.com/junegunn/fzf/releases/download/v0.57.0/fzf-0.57.0-linux_arm64.tar.gz
