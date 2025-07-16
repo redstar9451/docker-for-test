@@ -3,6 +3,9 @@
 ## How to build docker image
 
 ```shell
+# build latest go version
+docker build -f dockerfile .
+
 # build golang 1.22 development
 docker build --build-arg GO_VERSION=1.22 -t golang-dev:1.22 -f dockerfile .
 
@@ -21,6 +24,7 @@ kubectl apply -f k8s.yaml
 
 ```shell
 docker build -t mytest -f dockerfile .
+docker build -t go-latest -f dockerfile .
 docker run -d --name go.arm -v <local path>:<remote path> mytest
 docker run -it mytest bash
 docker stop go.arm && docker rm go.arm

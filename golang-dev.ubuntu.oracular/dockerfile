@@ -1,6 +1,6 @@
 FROM ubuntu:oracular
 
-ARG GO_VERSION=1.17
+ARG GO_VERSION=latest
 ENV GO_VERSION=${GO_VERSION}
 
 RUN apt-get update
@@ -22,6 +22,9 @@ RUN apt-get install -y curl
 RUN apt-get install -y file
 RUN apt-get install -y tree
 RUN apt-get install -y sshpass
+RUN apt-get install -y zsh
+RUN echo y | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 
 RUN apt-get install locales
 RUN locale-gen en_US.UTF-8
@@ -36,9 +39,22 @@ ENV TZ=Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
 
+# Add installation scripts
 ADD ./install-golang.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/install-golang.sh && /usr/local/bin/install-golang.sh
+ADD ./install-latest-golang.sh /usr/local/bin
 
+# Make scripts executable
+RUN chmod +x /usr/local/bin/install-golang.sh && \
+    chmod +x /usr/local/bin/install-latest-golang.sh
+
+# Install Go based on GO_VERSION
+RUN if [ "$GO_VERSION" = "latest" ]; then \
+        echo "GO_VERSION=latest, using install-latest-golang.sh" && \
+        /usr/local/bin/install-latest-golang.sh; \
+    else \
+        echo "GO_VERSION=$GO_VERSION, using install-golang.sh" && \
+        /usr/local/bin/install-golang.sh; \
+    fi
 
 ADD ./test_init.sh /usr/local/bin
 CMD ["/usr/local/bin/test_init.sh"]
