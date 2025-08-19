@@ -47,6 +47,8 @@ ADD ./install-latest-golang.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/install-golang.sh && \
     chmod +x /usr/local/bin/install-latest-golang.sh
 
+RUN rm /usr/bin/sh && ln -s /usr/bin/bash /usr/bin/sh
+
 # Install Go based on GO_VERSION
 RUN if [ "$GO_VERSION" = "latest" ]; then \
         echo "GO_VERSION=latest, using install-latest-golang.sh" && \
